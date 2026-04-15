@@ -1,0 +1,5 @@
+{
+  "name": " THIN_HUB 4.0",
+  "description": "Hệ sinh thái quản lý và hỗ trợ học tập thông minh cho học sinh THPT.",
+  "requestFramePermissions": ["microphone"]
+}

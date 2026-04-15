@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+@theme {
+  --font-sans: var(--app-font, "Inter"), ui-sans-serif, system-ui, sans-serif;
+  --color-primary: var(--primary-color, #22d3ee);
+  --color-primary-glow: var(--primary-glow, rgba(34, 211, 238, 0.4));
+}
+
+@layer base {
+  :root {
+    --primary-color: #14b8a6;
+    --primary-glow: rgba(20, 184, 166, 0.4);
+    --app-font: "Inter";
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-200 antialiased;
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-950;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-800 rounded-full hover:bg-primary/50 transition-all;
+  }
+}
+
+.neon-glow {
+  text-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary-glow);
+}
+
+.neon-border {
+  box-shadow: 0 0 15px var(--color-primary-glow);
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .bg-slate-950, .bg-slate-900, .bg-slate-900\/50 {
+    background: white !important;
+    border-color: #eee !important;
+  }
+  .text-white, .text-slate-200, .text-slate-300, .text-slate-400 {
+    color: black !important;
+  }
+  table {
+    border: 1px solid #eee !important;
+  }
+  th, td {
+    border-bottom: 1px solid #eee !important;
+    color: black !important;
+  }
+}
+
+
