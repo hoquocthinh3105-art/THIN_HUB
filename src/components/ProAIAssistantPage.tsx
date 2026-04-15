@@ -44,6 +44,7 @@ export const ProAIAssistantPage = () => {
   const [liveResponse, setLiveResponse] = useState('');
   const liveRecognitionRef = useRef<any>(null);
   const isLiveModeRef = useRef(false);
+  const mainChatRecognitionRef = useRef<any>(null);
 
   const [isMicBlocked, setIsMicBlocked] = useState(false);
 
@@ -385,6 +386,12 @@ export const ProAIAssistantPage = () => {
   };
 
   const handleVoiceInput = async () => {
+    if (isListening && mainChatRecognitionRef.current) {
+      mainChatRecognitionRef.current.stop();
+      setIsListening(false);
+      return;
+    }
+
     try {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -406,6 +413,7 @@ export const ProAIAssistantPage = () => {
     }
     
     const recognition = new SpeechRecognition();
+    mainChatRecognitionRef.current = recognition;
     recognition.lang = 'vi-VN';
     recognition.onstart = () => {
       setIsListening(true);

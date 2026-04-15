@@ -239,6 +239,11 @@ export const ThinAILivePage = () => {
 
             {/* The Orb */}
             <motion.div 
+              onClick={() => {
+                if (status === 'listening' && recognitionRef.current) {
+                  recognitionRef.current.stop();
+                }
+              }}
               animate={{ 
                 scale: status === 'listening' ? [1, 1.1, 1] : status === 'speaking' ? [1, 1.05, 1] : 1,
                 boxShadow: status === 'listening' ? "0 0 80px rgba(6,182,212,0.5)" : 
@@ -248,7 +253,7 @@ export const ThinAILivePage = () => {
               transition={{ repeat: Infinity, duration: 1 }}
               className={cn(
                 "w-48 h-48 rounded-full flex items-center justify-center transition-all duration-700 relative overflow-hidden",
-                status === 'listening' ? "bg-gradient-to-br from-blue-600 to-cyan-500" :
+                status === 'listening' ? "bg-gradient-to-br from-blue-600 to-cyan-500 cursor-pointer" :
                 status === 'thinking' ? "bg-gradient-to-br from-purple-600 to-pink-500" :
                 status === 'speaking' ? "bg-gradient-to-br from-cyan-400 to-emerald-500" : "bg-slate-800"
               )}
@@ -263,7 +268,12 @@ export const ThinAILivePage = () => {
                 </button>
               ) : (
                 <div className="flex flex-col items-center gap-2">
-                  {status === 'listening' && <Mic className="w-16 h-16 text-white animate-pulse" />}
+                  {status === 'listening' && (
+                    <>
+                      <Mic className="w-12 h-12 text-white animate-pulse" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 mt-1">Chạm để gửi</span>
+                    </>
+                  )}
                   {status === 'thinking' && <BrainCircuit className="w-16 h-16 text-white animate-spin-slow" />}
                   {status === 'speaking' && <Volume2 className="w-16 h-16 text-white animate-bounce" />}
                 </div>
