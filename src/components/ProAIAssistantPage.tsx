@@ -388,7 +388,6 @@ export const ProAIAssistantPage = () => {
   const handleVoiceInput = async () => {
     if (isListening && mainChatRecognitionRef.current) {
       mainChatRecognitionRef.current.stop();
-      setIsListening(false);
       return;
     }
 
@@ -423,9 +422,7 @@ export const ProAIAssistantPage = () => {
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
       setInput(transcript);
-      if (isVoiceMode) {
-        handleSend(undefined, transcript);
-      }
+      handleSend(undefined, transcript); // Luôn gửi ngay khi nhận diện xong hoặc khi người dùng bấm dừng
     };
     recognition.onerror = (e: any) => { 
       setIsListening(false); 

@@ -93,7 +93,10 @@ export const ThinAILivePage = () => {
     recognition.lang = 'vi-VN';
     recognition.continuous = false;
     
+    let hasResult = false;
+    
     recognition.onresult = async (event: any) => {
+      hasResult = true;
       const text = event.results[0][0].transcript;
       setTranscript(text);
       setHistory(prev => [...prev, { role: 'user', text }]);
@@ -102,10 +105,16 @@ export const ThinAILivePage = () => {
     };
     
     recognition.onerror = (e: any) => {
-      if (e.error === 'no-speech' && isLiveActiveRef.current) {
-        startListening();
-      } else if (e.error !== 'aborted') {
+      if (e.error !== 'no-speech' && e.error !== 'aborted') {
         setStatus('idle');
+        toast.error("Lỗi nhận diện: " + e.error);
+      }
+    };
+
+    recognition.onend = () => {
+      if (!hasResult && isLiveActiveRef.current) {
+        // Restart listening if no result was captured (e.g. stopped manually too early or no speech)
+        startListening();
       }
     };
     
@@ -241,6 +250,7 @@ export const ThinAILivePage = () => {
             <motion.div 
               onClick={() => {
                 if (status === 'listening' && recognitionRef.current) {
+                  setStatus('thinking'); // Phản hồi UI ngay lập tức
                   recognitionRef.current.stop();
                 }
               }}
